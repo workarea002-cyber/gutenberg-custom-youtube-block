@@ -1,0 +1,38 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-create-block-lite-youtube {
+	overflow: hidden;
+}
+
+.wp-block-create-block-lite-youtube figure {
+	position: relative;
+	aspect-ratio: inherit;
+	margin: 0;
+}
+
+.wp-block-create-block-lite-youtube figure img {
+	width: 100%;
+	aspect-ratio: inherit;
+	object-fit: cover;
+	object-position: center;
+}
+
+.wp-block-create-block-lite-youtube figure .overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.wp-block-create-block-lite-youtube figure .overlay img {
+	width: 64px;
+	height: 64px;
+}

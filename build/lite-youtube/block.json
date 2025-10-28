@@ -1,0 +1,78 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "create-block/lite-youtube",
+  "version": "0.1.0",
+  "title": "Lite Youtube",
+  "category": "widgets",
+  "icon": "smiley",
+  "description": "Example block scaffolded with Create Block tool.",
+  "example": {},
+  "attributes": {
+    "youtubeLink": {
+      "type": "string",
+      "default": "https://www.youtube.com/watch?v=MLpWrANjFbI"
+    },
+    "thumbnail": {
+      "type": "string",
+      "source": "attribute",
+      "selector": "img",
+      "attribute": "src",
+      "default": "https://img.youtube.com/vi/MLpWrANjFbI/hqdefault.jpg"
+    },
+    "youtubeVideoID": {
+      "type": "string",
+      "default": "MLpWrANjFbI"
+    },
+    "customImage": {
+      "type": "object",
+      "default": {
+        "id": 0,
+        "url": "",
+        "alt": ""
+      }
+    },
+    "isCustomImage": {
+      "type": "boolean",
+      "default": false
+    },
+    "isClicked": {
+      "type": "boolean",
+      "default": false
+    },
+    "style": {
+      "type": "object",
+      "dimensions": {
+        "aspectRatio": "16/9"
+      }
+    }
+  },
+  "supports": {
+    "html": false,
+    "border": {
+      "color": true,
+      "radius": true,
+      "width": true,
+      "style": true
+    },
+    "dimensions": {
+      "aspectRatio": true
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true
+    },
+    "__experimentalBorder": {
+      "color": true,
+      "radius": true,
+      "width": true,
+      "style": true
+    },
+    "shadow": true
+  },
+  "textdomain": "lite-youtube",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "script": "file:./frontend.js"
+}
