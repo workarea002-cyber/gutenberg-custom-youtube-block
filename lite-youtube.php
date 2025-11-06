@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name:       Lite Youtube
- * Description:       Example block scaffolded with Create Block tool.
+ * Description:       Loads iframe only when clicked, reducing load time
  * Version:           0.1.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
- * Author:            The WordPress Contributors
+ * Author:            Vedang
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       lite-youtube

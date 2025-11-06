@@ -26,6 +26,7 @@ export default function save({ attributes }) {
 						src={isCustomImage ? customImage.url : thumbnail}
 						alt="Youtube Thumbnail"
 						loading="lazy"
+						fetchPriority="low"
 					/>
 					<div className="overlay">
 						<img src={play} alt="icon" width={64} height={64} />
