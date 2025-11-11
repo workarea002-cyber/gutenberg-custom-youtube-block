@@ -27,9 +27,18 @@ export default function save({ attributes }) {
 						alt="Youtube Thumbnail"
 						loading="lazy"
 						fetchPriority="low"
+						decoding="async"
 					/>
 					<div className="overlay">
-						<img src={play} alt="icon" width={64} height={64} />
+						<img
+							loading="lazy"
+							fetchPriority="low"
+							decoding="async"
+							src={play}
+							alt="icon"
+							width={64}
+							height={64}
+						/>
 					</div>
 				</figure>
 			</div>
