@@ -35,14 +35,8 @@ import play from "../assets/icons-play.png";
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const {
-		youtubeLink,
-		thumbnail,
-		youtubeVideoID,
-		isClicked,
-		customImage,
-		isCustomImage,
-	} = attributes;
+	const { youtubeLink, thumbnail, youtubeVideoID, customImage, isCustomImage } =
+		attributes;
 
 	const getYouTubeID = (url) => {
 		try {
