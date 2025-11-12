@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		const id = block.dataset.youtubeId;
 		let isIframeLoaded = false;
 
-		overlay.addEventListener("click", () => {
+		overlay.addEventListener("click", (e) => {
+			e.stopPropagation();
 			if (isIframeLoaded) return;
 			isIframeLoaded = true;
 
@@ -17,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			iframe.width = "560";
 			iframe.height = "315";
 			iframe.style.height = "auto";
-			iframe.style.aspectRatio = "16 / 9";
+			iframe.style.aspectRatio = "inherit";
+			iframe.style.width = "auto";
 			iframe.title = "YouTube video player";
 			iframe.frameBorder = "0";
 			iframe.allow =
