@@ -16,7 +16,12 @@ import {
 	MediaUpload,
 	useBlockProps,
 } from "@wordpress/block-editor";
-import { TextControl, PanelBody, Button } from "@wordpress/components";
+import {
+	TextControl,
+	PanelBody,
+	Button,
+	SelectControl,
+} from "@wordpress/components";
 import play from "../assets/icons-play.png";
 
 /**
@@ -35,8 +40,17 @@ import play from "../assets/icons-play.png";
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { youtubeLink, thumbnail, youtubeVideoID, customImage, isCustomImage } =
-		attributes;
+	const {
+		youtubeLink,
+		thumbnail,
+		youtubeVideoID,
+		customImage,
+		isCustomImage,
+		imgAspectRatio,
+		videoAspectRatio,
+	} = attributes;
+
+	console.log(attributes);
 
 	const getYouTubeID = (url) => {
 		try {
@@ -50,11 +64,13 @@ export default function Edit({ attributes, setAttributes }) {
 	};
 
 	const handleLinkInput = (value) => {
+		setAttributes({ youtubeLink: value });
+
 		const id = getYouTubeID(value);
+
 		if (id) {
 			setAttributes({
 				youtubeVideoID: id,
-				youtubeLink: value,
 				thumbnail: isCustomImage
 					? customImage.url
 					: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
@@ -63,15 +79,24 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 	};
 
+	const blockProps = useBlockProps({
+		style: {
+			"--img-aspect-ratio": imgAspectRatio,
+			"--video-aspect-ratio": videoAspectRatio,
+		},
+	});
+
 	return (
-		<div {...useBlockProps()} data-youtube-id={youtubeVideoID}>
+		<div {...blockProps} data-youtube-id={youtubeVideoID}>
 			<InspectorControls>
 				<PanelBody title="YouTube Settings">
 					<TextControl
+						__nextHasNoMarginBottom
+						__next40pxDefaultSize
 						label="YouTube URL"
 						value={youtubeLink}
-						onChange={handleLinkInput}
-						placeholder="https://www.youtube.com/watch?v=abc-123"
+						onChange={(value) => handleLinkInput(value)}
+						placeholder="Enter YouTube URL"
 					/>
 				</PanelBody>
 				<PanelBody title="Custom Image">
@@ -87,12 +112,20 @@ export default function Edit({ attributes, setAttributes }) {
 						}
 						render={({ open }) => {
 							if (0 == customImage.id) {
-								return <Button onClick={open}>Select Image</Button>;
+								return (
+									<Button
+										className="components-button is-primary"
+										onClick={open}
+									>
+										Select Image
+									</Button>
+								);
 							} else {
 								return (
 									<>
 										<img src={customImage.url} onClick={open} />
 										<Button
+											className="components-button is-secondary"
 											onClick={() =>
 												setAttributes({
 													isCustomImage: false,
@@ -108,9 +141,46 @@ export default function Edit({ attributes, setAttributes }) {
 						}}
 					/>
 				</PanelBody>
+				<PanelBody title="Video Dimension">
+					<SelectControl
+						label="Image Aspect Ratio"
+						value={imgAspectRatio}
+						options={[
+							{ label: "Default - 16/9", value: "16/9" },
+							{ label: "Standard - 4/3", value: "4/3" },
+							{ label: "Portrait - 3/4", value: "3/4" },
+							{ label: "Classic - 3/2", value: "3/2" },
+							{ label: "Classic Portrait - 2/3", value: "2/3" },
+							{ label: "Tall - 9/16", value: "9/16" },
+							{ label: "Square - 1/1", value: "1/1" },
+						]}
+						onChange={(newRatio) => setAttributes({ aspectRatio: newRatio })}
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+					/>
+					<SelectControl
+						label="Video Aspect Ratio"
+						value={videoAspectRatio}
+						options={[
+							{ label: "Default - 16/9", value: "16/9" },
+							{ label: "Standard - 4/3", value: "4/3" },
+							{ label: "Portrait - 3/4", value: "3/4" },
+							{ label: "Classic - 3/2", value: "3/2" },
+							{ label: "Classic Portrait - 2/3", value: "2/3" },
+							{ label: "Tall - 9/16", value: "9/16" },
+							{ label: "Square - 1/1", value: "1/1" },
+						]}
+						onChange={(newRatio) =>
+							setAttributes({ videoAspectRatio: newRatio })
+						}
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+					/>
+				</PanelBody>
 			</InspectorControls>
 			<figure>
 				<img
+					className="thumb"
 					src={isCustomImage ? customImage.url : thumbnail}
 					alt="Youtube Thumbnail"
 				/>

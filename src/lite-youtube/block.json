@@ -36,11 +36,13 @@
 			"type": "boolean",
 			"default": false
 		},
-		"style": {
-			"type": "object",
-			"dimensions": {
-				"aspectRatio": "16/9"
-			}
+		"imgAspectRatio": {
+			"type": "string",
+			"default": "16/9"
+		},
+		"videoAspectRatio": {
+			"type": "string",
+			"default": "16/9"
 		}
 	},
 	"supports": {
@@ -50,9 +52,6 @@
 			"radius": true,
 			"width": true,
 			"style": true
-		},
-		"dimensions": {
-			"aspectRatio": true
 		},
 		"spacing": {
 			"padding": true,
@@ -70,5 +69,5 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"script": "file:./frontend.js"
+	"viewScript": "file:./view.js"
 }

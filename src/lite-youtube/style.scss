@@ -8,33 +8,56 @@
 	overflow: hidden;
 	max-height: 100%;
 	margin: auto;
+
+	iframe {
+		aspect-ratio: var(--video-aspect-ratio);
+	}
 }
 
-.wp-block-create-block-lite-youtube figure {
-	position: relative;
-	aspect-ratio: inherit;
-	margin: 0;
+.wp-block-create-block-lite-youtube {
+	figure {
+		position: relative;
+		aspect-ratio: inherit;
+		margin: 0;
+		aspect-ratio: var(--img-aspect-ratio);
+	}
 }
 
-.wp-block-create-block-lite-youtube figure img {
-	width: 100%;
-	aspect-ratio: inherit;
-	object-fit: cover;
-	object-position: center;
+.wp-block-create-block-lite-youtube {
+	figure {
+		.thumb {
+			width: 100%;
+			aspect-ratio: var(--img-aspect-ratio);
+			object-fit: cover;
+			object-position: center;
+		}
+	}
 }
 
-.wp-block-create-block-lite-youtube figure .overlay {
-	position: absolute;
-	top: 0;
-	left: 0;
-	inset: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-}
+.wp-block-create-block-lite-youtube {
+	figure {
+		.thumb {
+			width: 100%;
+			aspect-ratio: var(--img-aspect-ratio);
+			object-fit: cover;
+			object-position: center;
+		}
 
-.wp-block-create-block-lite-youtube figure .overlay img {
-	width: 64px;
-	height: 64px;
+		.overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			inset: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			aspect-ratio: var(--img-aspect-ratio);
+
+			img {
+				width: 64px;
+				height: 64px;
+			}
+		}
+	}
 }
