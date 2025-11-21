@@ -18,8 +18,7 @@ import play from "../assets/icons-play.png";
  */
 export default function save({ attributes }) {
 	const {
-		thumbnail,
-		youtubeVideoID,
+		youtubeData,
 		customImage,
 		isCustomImage,
 		imgAspectRatio,
@@ -31,15 +30,16 @@ export default function save({ attributes }) {
 			"--img-aspect-ratio": imgAspectRatio,
 			"--video-aspect-ratio": videoAspectRatio,
 		},
+		"data-youtube-id": youtubeData.id,
 	});
 
 	return (
 		<>
-			<div {...blockProps} data-youtube-id={youtubeVideoID}>
+			<div {...blockProps}>
 				<figure>
 					<img
 						className="thumb"
-						src={isCustomImage ? customImage.url : thumbnail}
+						src={isCustomImage ? customImage.url : youtubeData.thumbnail}
 						alt="Youtube Thumbnail"
 						loading="lazy"
 						fetchPriority="low"

@@ -21,6 +21,7 @@ import {
 	PanelBody,
 	Button,
 	SelectControl,
+	ToggleControl,
 } from "@wordpress/components";
 import play from "../assets/icons-play.png";
 
@@ -41,17 +42,16 @@ import play from "../assets/icons-play.png";
  */
 export default function Edit({ attributes, setAttributes }) {
 	const {
-		youtubeLink,
-		thumbnail,
-		youtubeVideoID,
+		youtubeData,
 		customImage,
 		isCustomImage,
 		imgAspectRatio,
 		videoAspectRatio,
 	} = attributes;
 
-	console.log(attributes);
+	console.log("logging attributes", attributes);
 
+	// Get the Id from the youtube URl
 	const getYouTubeID = (url) => {
 		try {
 			const match = url.match(
@@ -63,19 +63,35 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 	};
 
-	const handleLinkInput = (value) => {
-		setAttributes({ youtubeLink: value });
+	// Setting the different image size for select dropdown
+	const sizeOptions = Object.entries(customImage?.sizes || {}).map(
+		([key, data]) => ({
+			label: `${key} (${data.width} x ${data.height})`,
+			value: key,
+		}),
+	);
 
-		const id = getYouTubeID(value);
-
-		if (id) {
+	const handleLinkInput = (newLink) => {
+		//check if link is new
+		if (youtubeLink !== newLink) {
 			setAttributes({
-				youtubeVideoID: id,
-				thumbnail: isCustomImage
-					? customImage.url
-					: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
-				isClicked: false,
+				youtubeData: {
+					...youtubeData,
+					url: newLink,
+				},
 			});
+
+			const videoId = getYouTubeID(newLink);
+
+			if (id) {
+				setAttributes({
+					youtubeData: {
+						...youtubeData,
+						id: videoId,
+						thumbnail: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+					},
+				});
+			}
 		}
 	};
 
@@ -84,63 +100,110 @@ export default function Edit({ attributes, setAttributes }) {
 			"--img-aspect-ratio": imgAspectRatio,
 			"--video-aspect-ratio": videoAspectRatio,
 		},
+		"data-youtube-id": youtubeData.id,
 	});
 
 	return (
-		<div {...blockProps} data-youtube-id={youtubeVideoID}>
+		<div {...blockProps}>
 			<InspectorControls>
 				<PanelBody title="YouTube Settings">
 					<TextControl
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 						label="YouTube URL"
-						value={youtubeLink}
-						onChange={(value) => handleLinkInput(value)}
+						value={youtubeData.url}
+						onChange={(newLink) => handleLinkInput(newLink)}
 						placeholder="Enter YouTube URL"
 					/>
 				</PanelBody>
-				<PanelBody title="Custom Image">
-					<MediaUpload
-						title="Select Image"
-						allowedTypes={["image/jpeg", "image/png", "image/webp"]}
-						value={customImage.id}
-						onSelect={(image) =>
+
+				<PanelBody title="Custom Thumbnail">
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label="Custom Thumbnail"
+						checked={isCustomImage}
+						onChange={(newValue) => {
 							setAttributes({
-								isCustomImage: true,
-								customImage: { id: image.id, url: image.url, alt: image.alt },
-							})
-						}
-						render={({ open }) => {
-							if (0 == customImage.id) {
-								return (
-									<Button
-										className="components-button is-primary"
-										onClick={open}
-									>
-										Select Image
-									</Button>
-								);
-							} else {
-								return (
-									<>
-										<img src={customImage.url} onClick={open} />
-										<Button
-											className="components-button is-secondary"
-											onClick={() =>
-												setAttributes({
-													isCustomImage: false,
-													customImage: { id: 0, url: "", alt: "" },
-												})
-											}
-										>
-											Delete Image
-										</Button>
-									</>
-								);
-							}
+								isCustomImage: newValue,
+							});
 						}}
 					/>
+					{isCustomImage && (
+						<>
+							<MediaUpload
+								title="Select Image"
+								allowedTypes={["image/jpeg", "image/png", "image/webp"]}
+								value={customImage.id}
+								onSelect={(image) => {
+									setAttributes({
+										customImage: {
+											id: image.id,
+											url: image.url,
+											alt: image.alt,
+											sizes: image.sizes,
+											selectedSize: "full",
+										},
+									});
+								}}
+								render={({ open }) => {
+									if (0 == customImage.id) {
+										return (
+											<Button
+												className="components-button is-primary"
+												onClick={open}
+											>
+												Select Image
+											</Button>
+										);
+									} else {
+										return (
+											<>
+												<img src={customImage.url} onClick={open} />
+												<Button
+													className="components-button is-secondary"
+													onClick={() =>
+														setAttributes({
+															customImage: {
+																id: 0,
+																url: "",
+																alt: "",
+																sizes: {},
+																selectedSize: "full",
+															},
+														})
+													}
+												>
+													Delete Image
+												</Button>
+											</>
+										);
+									}
+								}}
+							/>
+
+							<SelectControl
+								label="Image Size"
+								value={customImage.selectedSize}
+								options={sizeOptions}
+								onChange={(newSize) => {
+									const sizeData = customImage?.sizes?.[newSize];
+									if (sizeData) {
+										setAttributes({
+											customImage: {
+												...customImage,
+												url: customImage.sizes[newSize].url,
+												selectedSize: newSize,
+											},
+										});
+									}
+								}}
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+							/>
+						</>
+					)}
 				</PanelBody>
+
 				<PanelBody title="Video Dimension">
 					<SelectControl
 						label="Image Aspect Ratio"
@@ -158,6 +221,7 @@ export default function Edit({ attributes, setAttributes }) {
 						__next40pxDefaultSize
 						__nextHasNoMarginBottom
 					/>
+
 					<SelectControl
 						label="Video Aspect Ratio"
 						value={videoAspectRatio}
@@ -181,7 +245,7 @@ export default function Edit({ attributes, setAttributes }) {
 			<figure>
 				<img
 					className="thumb"
-					src={isCustomImage ? customImage.url : thumbnail}
+					src={isCustomImage ? customImage.url : youtubeData.thumbnail}
 					alt="Youtube Thumbnail"
 				/>
 				<div

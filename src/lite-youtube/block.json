@@ -9,24 +9,23 @@
 	"description": "Example block scaffolded with Create Block tool.",
 	"example": {},
 	"attributes": {
-		"youtubeLink": {
-			"type": "string",
-			"default": "https://www.youtube.com/watch?v=MLpWrANjFbI"
-		},
-		"thumbnail": {
-			"type": "string",
-			"source": "attribute",
-			"selector": "img",
-			"attribute": "src",
-			"default": "https://img.youtube.com/vi/MLpWrANjFbI/hqdefault.jpg"
-		},
-		"youtubeVideoID": {
-			"type": "string",
-			"default": "MLpWrANjFbI"
+		"youtubeData": {
+			"type": "object",
+			"default": {
+				"id": "MLpWrANjFbI",
+				"thumbnail": "https://img.youtube.com/vi/MLpWrANjFbI/hqdefault.jpg",
+				"url": "https://www.youtube.com/watch?v=MLpWrANjFbI"
+			}
 		},
 		"customImage": {
 			"type": "object",
-			"default": { "id": 0, "url": "", "alt": "" }
+			"default": {
+				"id": 0,
+				"url": "",
+				"alt": "",
+				"sizes": {},
+				"selectedSize": "full"
+			}
 		},
 		"isCustomImage": {
 			"type": "boolean",
