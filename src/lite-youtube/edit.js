@@ -49,8 +49,6 @@ export default function Edit({ attributes, setAttributes }) {
 		videoAspectRatio,
 	} = attributes;
 
-	console.log("logging attributes", attributes);
-
 	// Get the Id from the youtube URl
 	const getYouTubeID = (url) => {
 		try {
