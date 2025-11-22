@@ -24,6 +24,7 @@ import {
 	ToggleControl,
 } from "@wordpress/components";
 import play from "../assets/icons-play.png";
+import { useState } from "react";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -49,6 +50,11 @@ export default function Edit({ attributes, setAttributes }) {
 		videoAspectRatio,
 	} = attributes;
 
+	const [localYTUrl, setLocalYTUrl] = useState(youtubeData.url);
+	const [ytError, setYTError] = useState(false);
+
+	console.log(attributes);
+
 	// Get the Id from the youtube URl
 	const getYouTubeID = (url) => {
 		try {
@@ -70,26 +76,23 @@ export default function Edit({ attributes, setAttributes }) {
 	);
 
 	const handleLinkInput = (newLink) => {
-		//check if link is new
-		if (youtubeLink !== newLink) {
+		// set local state
+		setLocalYTUrl(newLink);
+
+		const videoId = getYouTubeID(newLink);
+
+		if (videoId) {
 			setAttributes({
 				youtubeData: {
 					...youtubeData,
+					id: videoId,
+					thumbnail: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
 					url: newLink,
 				},
 			});
-
-			const videoId = getYouTubeID(newLink);
-
-			if (id) {
-				setAttributes({
-					youtubeData: {
-						...youtubeData,
-						id: videoId,
-						thumbnail: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
-					},
-				});
-			}
+			setYTError(false);
+		} else {
+			setYTError(true);
 		}
 	};
 
@@ -109,10 +112,13 @@ export default function Edit({ attributes, setAttributes }) {
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 						label="YouTube URL"
-						value={youtubeData.url}
+						value={localYTUrl}
 						onChange={(newLink) => handleLinkInput(newLink)}
 						placeholder="Enter YouTube URL"
 					/>
+					{ytError && localYTUrl !== "" && (
+						<p style={{ color: "red" }}>Invalid YouTube URL</p>
+					)}
 				</PanelBody>
 
 				<PanelBody title="Custom Thumbnail">
