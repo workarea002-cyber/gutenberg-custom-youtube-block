@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			iframe.src = `https://www.youtube.com/embed/${id}?feature=oembed`;
 			iframe.width = "560";
 			iframe.height = "315";
-			iframe.style.height = "auto";
 			iframe.style.width = "auto";
 			iframe.title = "YouTube video player";
 			iframe.frameBorder = "0";
