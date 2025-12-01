@@ -105,7 +105,7 @@ export default function Edit({ attributes, setAttributes }) {
 	});
 
 	return (
-		<div {...blockProps}>
+		<>
 			<InspectorControls>
 				<PanelBody title="YouTube Settings">
 					<TextControl
@@ -246,19 +246,22 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-			<figure>
-				<img
-					className="thumb"
-					src={isCustomImage ? customImage.url : youtubeData.thumbnail}
-					alt="Youtube Thumbnail"
-				/>
-				<div
-					className="overlay"
-					onClick={() => setAttributes({ isClicked: true })}
-				>
-					<img src={play} alt="icon" width={64} height={64} />
-				</div>
-			</figure>
-		</div>
+
+			<div {...blockProps}>
+				<figure>
+					<img
+						className="thumb"
+						src={isCustomImage ? customImage.url : youtubeData.thumbnail}
+						alt="Youtube Thumbnail"
+					/>
+					<div
+						className="overlay"
+						onClick={() => setAttributes({ isClicked: true })}
+					>
+						<img src={play} alt="icon" width={64} height={64} />
+					</div>
+				</figure>
+			</div>
+		</>
 	);
 }

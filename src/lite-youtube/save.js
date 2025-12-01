@@ -34,30 +34,28 @@ export default function save({ attributes }) {
 	});
 
 	return (
-		<>
-			<div {...blockProps}>
-				<figure>
+		<div {...blockProps}>
+			<figure>
+				<img
+					className="thumb"
+					src={isCustomImage ? customImage.url : youtubeData.thumbnail}
+					alt="Youtube Thumbnail"
+					loading="lazy"
+					fetchPriority="low"
+					decoding="async"
+				/>
+				<div className="overlay">
 					<img
-						className="thumb"
-						src={isCustomImage ? customImage.url : youtubeData.thumbnail}
-						alt="Youtube Thumbnail"
 						loading="lazy"
 						fetchPriority="low"
 						decoding="async"
+						src={play}
+						alt="icon"
+						width={64}
+						height={64}
 					/>
-					<div className="overlay">
-						<img
-							loading="lazy"
-							fetchPriority="low"
-							decoding="async"
-							src={play}
-							alt="icon"
-							width={64}
-							height={64}
-						/>
-					</div>
-				</figure>
-			</div>
-		</>
+				</div>
+			</figure>
+		</div>
 	);
 }
