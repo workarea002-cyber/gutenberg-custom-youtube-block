@@ -6,9 +6,10 @@
  */
 .wp-block-create-block-lite-youtube {
 	overflow: hidden;
-	max-height: 100%;
 	margin: auto;
-	height: 100%;
+	max-width: 1280px;
+	width: 100%;
+	aspect-ratio: var(--img-aspect-ratio);
 
 	iframe {
 		aspect-ratio: var(--video-aspect-ratio);
@@ -21,7 +22,7 @@
 		position: relative;
 		margin: 0;
 		aspect-ratio: var(--img-aspect-ratio);
-		height: 100%;
+		width: 100%;
 		margin: auto;
 		border-radius: inherit;
 
@@ -51,4 +52,8 @@
 			}
 		}
 	}
+}
+
+.wp-block-create-block-lite-youtube:has(iframe) {
+	aspect-ratio: var(--video-aspect-ratio);
 }
